@@ -357,6 +357,10 @@ class SchemaDocument(dict):
             for k, v in doc.iteritems():
                 self[k] = v
             gen_skel = False
+
+        if self.i18n:
+            self._make_i18n()
+
         if gen_skel:
             self.generate_skeleton()
             if self.default_values:
@@ -365,8 +369,6 @@ class SchemaDocument(dict):
             self._process_custom_type('python', self, self.structure)
         if self.use_dot_notation:
             self.__generate_doted_dict(self, self.structure)
-        if self.i18n:
-            self._make_i18n()
 
     def generate_skeleton(self):
         """

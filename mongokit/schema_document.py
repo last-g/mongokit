@@ -149,9 +149,11 @@ class i18nError(SchemaDocumentError):
 
 class SchemaProperties(type):
     def __new__(cls, name, bases, attrs):
+        super_new = super(SchemaProperties, cls).__new__
+
         attrs['_protected_field_names'] = set(
             ['_protected_field_names', '_namespaces', '_required_namespace'])
-        for parent in bases:
+        for parent in (b for b in bases if isinstance(b, cls)):  # No duck typing, baby
             if hasattr(parent, 'structure'):
                 if parent.structure is not None:
                     #parent = parent()
@@ -204,7 +206,7 @@ class SchemaProperties(type):
         attrs['_i18n_namespace'] = []
         if attrs.get('i18n'):
             attrs['_i18n_namespace'] = set(['.'.join(i.split('.')[:-1]) for i in attrs['i18n']])
-        return type.__new__(cls, name, bases, attrs)
+        return super_new(cls, name, bases, attrs)
 
     @classmethod
     def _validate_descriptors(cls, attrs):

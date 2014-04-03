@@ -151,8 +151,7 @@ class SchemaProperties(type):
     def __new__(cls, name, bases, attrs):
         attrs['_protected_field_names'] = set(
             ['_protected_field_names', '_namespaces', '_required_namespace'])
-        for base in bases:
-            parent = base.__mro__[0]
+        for parent in bases:
             if hasattr(parent, 'structure'):
                 if parent.structure is not None:
                     #parent = parent()

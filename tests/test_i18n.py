@@ -359,4 +359,19 @@ class i18nTestCase(unittest.TestCase):
         doc['foo']['bar']['fr'] = u'bla'
         doc.save()
 
+    def test_i18n_dot_notation_correctness(self):
+        class Doc(Document):
+            __database__ = 'test'
+            __collection__ = 'test_i18n'
+            use_dot_notation = True
+            structure = {
+                "foo": unicode,
+            }
+            i18n = ['foo']
+        self.connection.register([Doc])
+        doc = Doc()
+        doc.foo = "Hello"
+        self.connection.Doc.collection.save(doc)
+
+
 

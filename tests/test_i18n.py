@@ -232,8 +232,8 @@ class i18nTestCase(unittest.TestCase):
         mydoc = MyDoc()
         mydoc.existent = u"31337"
         mydoc.exists.subexists = u"31337"
-        self.assertIsInstance(mydoc, MyDoc)
-        self.assertIsInstance(mydoc.exists, i18nDotedDict)
+        self.assertTrue(isinstance(mydoc, MyDoc), 'MyDoc is MyDoc')
+        self.assertTrue(isinstance(mydoc.exists, i18nDotedDict), 'Field inside MyDoc is i18nDotedDict')
 
         self.assertEqual(mydoc.existent, u"31337", 'Getting existent value from dotted')
         self.assertEqual(mydoc.exists.subexists, u"31337", 'Getting existent value from dotted')
